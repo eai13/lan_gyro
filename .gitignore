@@ -1,0 +1,11 @@
+build
+crg20_mems
+enc28j60
+uart_debug
+Drivers
+Middlewares
+.mxproject
+*.ioc
+startup_stm*
+STM32G071*
+.vscode
