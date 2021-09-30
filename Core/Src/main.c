@@ -88,20 +88,22 @@ int main(void)
   crg20_module_t gyro2 = CRG20_Init(SPI_SS_G2_GPIO_Port, SPI_SS_G2_Pin);
   while(gyro2.status != CRG20_OK) gyro2 = CRG20_Init(SPI_SS_G2_GPIO_Port, SPI_SS_G2_Pin);
   print_in("CRG20 (2) Init: Success\r\n");
-  uint16_t len;
-  uint8_t buffer[600];
-  ethernet_packet_t * frame = buffer;
-  while(1){
-    if (len = Eth_ReceivePacket(buffer, sizeof(buffer))){
-      Ethernet_PacketProc(frame, len, (void *)0, 0);
-    }
-  }
+  
+  // while(1){
+  //   UDP_PacketSend(ip_set(192, 168, 0, 25), 5555, "yeppp", 6);
+  //   print_db("yeppie\r\n");
+  //   HAL_Delay(500);
+  // }
+
+  print_in("RTOS Initialization...\r\n");
 
   osKernelInitialize();  
 
   EthernetHandle = osThreadNew(threadEthernet, NULL, &EthernetAttr);
   GyroHandle =     osThreadNew(threadGyro,     NULL, &GyroAttr);
   DebugHandle =    osThreadNew(threadDebug,    NULL, &DebugAttr);
+
+  print_in("RTOS Ready...\r\n");
 
   osKernelStart();
  
