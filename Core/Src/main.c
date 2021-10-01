@@ -62,6 +62,8 @@ osThreadAttr_t GyroAttr = {
     .stack_size = 512 * 4
 };
 
+crg20_module_t gyro1, gyro2;
+
 void SystemClock_Config(void);
 
 int main(void)
@@ -81,19 +83,13 @@ int main(void)
   if (ENC28J60_Init() != ENC28J60_OK) SystemError(SYSTEM_ERROR_ETHERNET);
   print_in("ENC28J60 Init: Success\r\n");
 
-  crg20_module_t gyro1 = CRG20_Init(SPI_SS_G1_GPIO_Port, SPI_SS_G1_Pin);
+  gyro1 = CRG20_Init(SPI_SS_G1_GPIO_Port, SPI_SS_G1_Pin);
   while(gyro1.status != CRG20_OK) gyro1 = CRG20_Init(SPI_SS_G1_GPIO_Port, SPI_SS_G1_Pin);
   print_in("CRG20 (1) Init: Success\r\n");
 
-  crg20_module_t gyro2 = CRG20_Init(SPI_SS_G2_GPIO_Port, SPI_SS_G2_Pin);
+  gyro2 = CRG20_Init(SPI_SS_G2_GPIO_Port, SPI_SS_G2_Pin);
   while(gyro2.status != CRG20_OK) gyro2 = CRG20_Init(SPI_SS_G2_GPIO_Port, SPI_SS_G2_Pin);
   print_in("CRG20 (2) Init: Success\r\n");
-  
-  // while(1){
-  //   UDP_PacketSend(ip_set(192, 168, 0, 25), 5555, "yeppp", 6);
-  //   print_db("yeppie\r\n");
-  //   HAL_Delay(500);
-  // }
 
   print_in("RTOS Initialization...\r\n");
 
